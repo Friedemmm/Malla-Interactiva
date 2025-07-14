@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Interactiva Informática USACH</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --text-light: rgba(255, 255, 255, 0.9);
+            --disabled-bg: rgba(255, 255, 255, 0.05);
+            --disabled-text: rgba(255, 255, 255, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Elementos de fondo animados */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 600px;
+        }
+        
+        .nav-button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-align: center;
+            min-width: 80px;
+            line-height: 1.3;
+        }
+        
+        .nav-button:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button.active {
+            background: var(--secondary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        }
+        
+        /* Estilo para botones deshabilitados */
+        .nav-button.disabled {
+            background: var(--disabled-bg);
+            color: var(--disabled-text);
+            cursor: not-allowed;
+            opacity: 0.6;
+            position: relative;
+            pointer-events: none; /* Importante: evita que se haga clic */
+        }
+        
+        .nav-button.disabled::after {
+            content: 'Próximamente';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            color: var(--disabled-text);
+            white-space: nowrap;
+            font-weight: 400;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 30px 20px 20px;
+            color: var(--text-light);
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .cta-button {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Curriculum Grid */
+        .curriculum-section {
+            padding: 40px 20px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 60px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .semester-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 350px;
+        }
+        
+        .semester-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+        
+        .semester-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .semester-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .semester-number {
+            background: var(--secondary-gradient);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .subject-list {
+            list-style: none;
+        }
+        
+        .subject-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .subject-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-left-color: #4facfe;
+            transform: translateX(5px);
+        }
+        
+        .subject-item.aprobado {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            font-weight: 600;
+            border-left-color: #2e7d32;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .subject-item.aprobado:hover {
+            background: linear-gradient(135deg, #45a049 0%, #388e3c 100%);
+            transform: translateX(5px) scale(1.02);
+        }
+        
+        /* Nuevo estilo para ramos bloqueados */
+        .subject-item.bloqueado {
+            background: rgba(128, 128, 128, 0.3);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            opacity: 0.6;
+            border-left-color: #666;
+        }
+        
+        .subject-item.bloqueado:hover {
+            background: rgba(128, 128, 128, 0.3);
+            transform: none;
+            border-left-color: #666;
+        }
+        
+        .subject-item.bloqueado .subject-code {
+            opacity: 0.4;
+        }
+        
+        /* Nuevo estilo para ramos disponibles */
+        .subject-item.disponible {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-left-color: #4facfe;
+            animation: disponible-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes disponible-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(79, 172, 254, 0); }
+        }
+        
+        .subject-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        /* Tooltip para prerrequisitos */
+        .prerequisite-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 5px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 200px;
+            white-space: normal;
+        }
+        
+        .prerequisite-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .subject-item.bloqueado:hover .prerequisite-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            width: 100%;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Botón de reset */
+        .reset-button {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark-gradient);
+            color: var(--text-light);
+            padding: 40px 20px;
+            text-align: center;
+            width: 100%;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-signature {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .footer-username {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .footer-description {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-links a:hover {
+            color: #4facfe;
+            background: rgba(79, 172, 254, 0.1);
+            border-color: #4facfe;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .curriculum-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .nav-container {
+                max-width: 1000px;
+            }
+            
+            .curriculum-section {
+                max-width: 1000px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .curriculum-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
+            
+            .nav-links {
+                gap: 6px;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .nav-button {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+                min-width: 70px;
+            }
+            
+            .nav-button.disabled::after {
+                font-size: 0.55rem;
+                bottom: -13px;
+            }
+            
+            .curriculum-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-signature {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .curriculum-section {
+                padding: 30px 20px 60px;
+            }
+            
+            .hero {
+                padding: 20px 20px 15px;
+            }
+            
+            .nav-button {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+                min-width: 60px;
+            }
+            
+            .nav-button.disabled::after {
+                font-size: 0.5rem;
+                bottom: -11px;
+            }
+            
+            .semester-card {
+                padding: 20px;
+                min-height: 300px;
+            }
+            
+            .semester-title {
+                font-size: 1.2rem;
+            }
+            
+            .subject-item {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos de fondo animados -->
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">Universidad de Santiago<br>de Chile</div>
+            <ul class="nav-links">
+                <li><button class="nav-button active" data-carrera="ejecucion">Ingeniería de Ejecución<br>en Computación e Informática</button></li>
+                <li><button class="nav-button disabled" data-carrera="civil">Ingeniería Civil<br>en Informática</button></li>
+                <li><button class="nav-button disabled" data-carrera="prosecucion">Prosecución en<br>Ingeniería Civil en Informática</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 id="carrera-title">Ingeniería de Ejecución en Computación e Informática</h1>
+    </section>
+    
+    <!-- Curriculum Section -->
+    <section class="curriculum-section" id="programa">
+        <h2 class="section-title">Malla Curricular</h2>
+        
+        <button class="reset-button" onclick="resetProgress()">🔄 Reiniciar Progreso</button>
+        
+        <div class="curriculum-grid" id="mallaContainer">
+            <!-- El contenido se generará dinámicamente -->
+        </div>
+        
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stats-grid" id="statsContainer">
+                <!-- Las estadísticas se generarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-signature">
+                <div class="footer-avatar">F</div>
+                <div>
+                    <div class="footer-username">@Friedemmm</div>
+                </div>
+            </div>
+		<div class="footer-links">
+                <a href="https://github.com/Friedemmm" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/sofía-vergara-godoy/" target="_blank">LinkedIn</a>
+            </div>
+		<br>
+	    </div>
+            <div class="footer-description">
+                Malla interactiva correspondiente a las carreras del<br>Departamento de Informática de la Universidad de Santiago de Chile (USACH).
+            </div>
+        </div>
+    </footer>
+    
+    <script>        // Datos de las mallas con prerrequisitos
+        const mallas = {
+            ejecucion: [
+    { 
+        semestre: 'Primer Semestre', 
+        ramos: [
+            { nombre: 'Cálculo I', codigo: '10101', prerrequisitos: [] },
+            { nombre: 'Álgebra I', codigo: '10102', prerrequisitos: [] },
+            { nombre: 'Física I', codigo: '10103', prerrequisitos: [] },
+            { nombre: 'Taller de Desarrollo Personal e Integral', codigo: '10104', prerrequisitos: [] },
+            { nombre: 'Introducción a la Ingeniería', codigo: '10125', prerrequisitos: [] },
+            { nombre: 'Métodos de Estudio', codigo: '10126', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Segundo Semestre', 
+        ramos: [
+            { nombre: 'Cálculo II', codigo: '10107', prerrequisitos: ['Cálculo I'] },
+            { nombre: 'Álgebra II', codigo: '10108', prerrequisitos: ['Álgebra I'] },
+            { nombre: 'Física II', codigo: '10109', prerrequisitos: ['Física I'] },
+            { nombre: 'Fundamentos de Computación y Programación', codigo: '10110', prerrequisitos: ['Álgebra I'] },
+            { nombre: 'Química General', codigo: '10111', prerrequisitos: [] },
+            { nombre: 'Introducción a la Ingeniería Informática', codigo: '13287', prerrequisitos: ['Introducción a la Ingeniería'] }
+        ]
+    },
+    { 
+        semestre: 'Tercer Semestre', 
+        ramos: [
+            { nombre: 'Análisis Estadístico', codigo: '10115', prerrequisitos: ['Cálculo II'] },
+            { nombre: 'Ecuaciones Diferenciales y Métodos Numéricos', codigo: '10123', prerrequisitos: ['Cálculo II', 'Fundamentos de Computación y Programación'] },
+            { nombre: 'Electricidad y Magnetismo', codigo: '10127', prerrequisitos: ['Cálculo II', 'Física II'] },
+            { nombre: 'Comunicación Efectiva', codigo: '10128', prerrequisitos: ['Taller de Desarrollo Personal e Integral'] },
+            { nombre: 'Inglés I', codigo: '10130', prerrequisitos: ['Métodos de Estudio'] },
+            { nombre: 'Métodos de Programación', codigo: '13201', prerrequisitos: ['Fundamentos de Computación y Programación', 'Introducción a la Ingeniería Informática'] }
+        ]
+    },
+    { 
+        semestre: 'Cuarto Semestre', 
+        ramos: [
+            { nombre: 'Fundamentos de Economía', codigo: '10116', prerrequisitos: ['Cálculo I'] },
+            { nombre: 'Inglés II', codigo: '10131', prerrequisitos: ['Inglés I'] },
+            { nombre: 'Paradigmas de Programación', codigo: '13204', prerrequisitos: ['Métodos de Programación'] },
+            { nombre: 'Análisis de Algoritmos y Estructura de Datos', codigo: '13205', prerrequisitos: ['Métodos de Programación'] },
+            { nombre: 'Ingeniería de Sistemas', codigo: '13252', prerrequisitos: ['Análisis Estadístico', 'Química General', 'Introducción a la Ingeniería'] },
+            { nombre: 'Estructura de Computadores', codigo: '13273', prerrequisitos: ['Electricidad y Magnetismo', 'Álgebra II'] }
+        ]
+    },
+    { 
+        semestre: 'Quinto Semestre', 
+        ramos: [
+            { nombre: 'Inglés III', codigo: '10132', prerrequisitos: ['Inglés II'] },
+            { nombre: 'Fundamentos de Ingeniería de Software', codigo: 'ICI3241', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Informática y Sociedad', codigo: '13209', prerrequisitos: ['Comunicación Efectiva'] },
+            { nombre: 'Sistemas de Información', codigo: '13260', prerrequisitos: ['Ingeniería de Sistemas'] },
+            { nombre: 'Diseño de Base de Datos', codigo: '13261', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Organización de Computadores', codigo: '13274', prerrequisitos: ['Estructura de Computadores'] },
+            { nombre: 'Evaluación de Proyectos Informáticos', codigo: '13288', prerrequisitos: ['Fundamentos de Economía', 'Ecuaciones Diferenciales y Métodos Numéricos'] }
+        ]
+    },
+    { 
+        semestre: 'Sexto Semestre', 
+        ramos: [
+            { nombre: 'Inglés IV', codigo: '10133', prerrequisitos: ['Inglés III'] },
+            { nombre: 'Sistemas Operativos', codigo: '13212', prerrequisitos: ['Organización de Computadores', 'Análisis de Algoritmos y Estructura de Datos'] },
+            { nombre: 'Taller de Bases de Datos', codigo: '13215', prerrequisitos: ['Fundamentos de Ingeniería de Software', 'Diseño de Base de Datos'] },
+            { nombre: 'Técnicas de Ingeniería de Software', codigo: '13265', prerrequisitos: ['Fundamentos de Ingeniería de Software'] },
+            { nombre: 'Redes Computacionales', codigo: '13266', prerrequisitos: ['Organización de Computadores'] },
+            { nombre: 'Administración de Proyectos Informáticos', codigo: '13289', prerrequisitos: ['Evaluación de Proyectos Informáticos'] }
+        ]
+    },
+    { 
+        semestre: 'Séptimo Semestre', 
+        ramos: [
+            { nombre: 'Proyecto de Ingeniería de Software', codigo: '13267', prerrequisitos: ['Taller de Bases de Datos', 'Técnicas de Ingeniería de Software', 'Administración de Proyectos Informáticos'] },
+	{ nombre: 'Tópicos de Especialidad I', codigo: '13268', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales'] },
+            { nombre: 'Tópicos de Especialidad II', codigo: '13269', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales'] },
+            { nombre: 'Tópicos de Especialidad III', codigo: '13270', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales', 'Administración de Proyectos Informáticos'] },
+            { nombre: 'Seminario de Computación e Informática', codigo: '13276', prerrequisitos: ['Sistemas Operativos', 'Taller de Bases de Datos', 'Informática y Sociedad', 'Sistemas de Información'] }
+        ]
+    },
+    { 
+        semestre: 'Octavo Semestre', 
+        ramos: [
+            { nombre: 'Trabajo de Titulación', codigo: '13277', prerrequisitos: ['Seminario de Computación e Informática'] }
+        ]
+    }
+],
+           civil: [
+    { semestre: '1er Semestre', ramos: [
+        { nombre: 'Fundamentos de Computación', codigo: 'ICC1101', prerrequisitos: [] },
+        { nombre: 'Matemática Discreta', codigo: 'MAT1601', prerrequisitos: [] },
+        { nombre: 'Lógica de Programación', codigo: 'ICC1102', prerrequisitos: [] },
+        { nombre: 'Química General', codigo: 'QUI1041', prerrequisitos: [] }
+    ]},
+    { semestre: '2do Semestre', ramos: [
+        { nombre: 'Estructuras de Datos', codigo: 'ICC2101', prerrequisitos: ['Fundamentos de Computación'] },
+        { nombre: 'Cálculo I', codigo: 'MAT1610', prerrequisitos: ['Matemática Discreta'] },
+        { nombre: 'Física para Ingeniería', codigo: 'FIS1533', prerrequisitos: ['Química General'] },
+        { nombre: 'Álgebra Lineal', codigo: 'MAT1630', prerrequisitos: ['Matemática Discreta'] }
+    ]},
+    { semestre: '3er Semestre', ramos: [
+        { nombre: 'Algoritmos y Complejidad', codigo: 'ICC3101', prerrequisitos: ['Estructuras de Datos'] },
+        { nombre: 'Cálculo II', codigo: 'MAT1620', prerrequisitos: ['Cálculo I'] },
+        { nombre: 'Mecánica', codigo: 'FIS2533', prerrequisitos: ['Física para Ingeniería'] },
+        { nombre: 'Probabilidades', codigo: 'EST2011', prerrequisitos: ['Álgebra Lineal'] }
+    ]},
+    { semestre: '4to Semestre', ramos: [
+        { nombre: 'Bases de Datos', codigo: 'ICC4101', prerrequisitos: ['Algoritmos y Complejidad'] },
+        { nombre: 'Cálculo III', codigo: 'MAT2610', prerrequisitos: ['Cálculo II'] },
+        { nombre: 'Electromagnetismo', codigo: 'FIS2534', prerrequisitos: ['Mecánica'] },
+        { nombre: 'Métodos Numéricos', codigo: 'MAT2650', prerrequisitos: ['Probabilidades'] }
+    ]},
+    { semestre: '5to Semestre', ramos: [
+        { nombre: 'Ingeniería de Software', codigo: 'ICC5101', prerrequisitos: ['Bases de Datos'] },
+        { nombre: 'Ecuaciones Diferenciales', codigo: 'MAT2640', prerrequisitos: ['Cálculo III'] },
+        { nombre: 'Sistemas Operativos', codigo: 'ICC5102', prerrequisitos: ['Algoritmos y Complejidad'] },
+        { nombre: 'Investigación Operativa', codigo: 'ING2089', prerrequisitos: ['Métodos Numéricos'] }
+    ]},
+    { semestre: '6to Semestre', ramos: [
+        { nombre: 'Redes de Computadores', codigo: 'ICC6101', prerrequisitos: ['Sistemas Operativos'] },
+        { nombre: 'Análisis de Algoritmos', codigo: 'ICC6102', prerrequisitos: ['Ecuaciones Diferenciales'] },
+        { nombre: 'Arquitectura de Computadores', codigo: 'ICC6103', prerrequisitos: ['Sistemas Operativos'] },
+        { nombre: 'Teoría de la Computación', codigo: 'ICC6104', prerrequisitos: ['Investigación Operativa'] }
+    ]},
+    { semestre: '7mo Semestre', ramos: [
+        { nombre: 'Inteligencia Artificial', codigo: 'ICC7101', prerrequisitos: ['Análisis de Algoritmos'] },
+        { nombre: 'Compiladores', codigo: 'ICC7102', prerrequisitos: ['Teoría de la Computación'] },
+        { nombre: 'Sistemas Distribuidos', codigo: 'ICC7103', prerrequisitos: ['Redes de Computadores'] },
+        { nombre: 'Optimización', codigo: 'ICC7104', prerrequisitos: ['Análisis de Algoritmos'] }
+    ]},
+    { semestre: '8vo Semestre', ramos: [
+        { nombre: 'Taller de Título I', codigo: 'ICC8101', prerrequisitos: ['Ingeniería de Software'] },
+        { nombre: 'Electivo Profesional I', codigo: 'ICC8102', prerrequisitos: ['Inteligencia Artificial'] },
+        { nombre: 'Electivo Profesional II', codigo: 'ICC8103', prerrequisitos: ['Compiladores'] },
+        { nombre: 'Ética Profesional', codigo: 'HUM8001', prerrequisitos: [] }
+    ]}
+],
+
+prosecucion: [
+    { semestre: '1er Semestre', ramos: [
+        { nombre: 'Bases de Datos Avanzadas', codigo: 'ICP1101', prerrequisitos: [] },
+        { nombre: 'Ingeniería de Software', codigo: 'ICP1102', prerrequisitos: [] },
+        { nombre: 'Redes de Computadores', codigo: 'ICP1103', prerrequisitos: [] },
+        { nombre: 'Metodología de la Investigación', codigo: 'ICP1104', prerrequisitos: [] }
+    ]},
+    { semestre: '2do Semestre', ramos: [
+        { nombre: 'Sistemas Distribuidos', codigo: 'ICP2101', prerrequisitos: ['Redes de Computadores'] },
+        { nombre: 'Inteligencia Artificial', codigo: 'ICP2102', prerrequisitos: ['Bases de Datos Avanzadas'] },
+        { nombre: 'Gestión de Proyectos', codigo: 'ICP2103', prerrequisitos: ['Ingeniería de Software'] },
+        { nombre: 'Inglés Avanzado', codigo: 'ING2024', prerrequisitos: ['Metodología de la Investigación'] }
+    ]},
+    { semestre: '3er Semestre', ramos: [
+        { nombre: 'Taller de Título I', codigo: 'ICP3101', prerrequisitos: ['Gestión de Proyectos'] },
+        { nombre: 'Electivo Profesional I', codigo: 'ICP3102', prerrequisitos: ['Inteligencia Artificial'] },
+        { nombre: 'Seguridad Informática', codigo: 'ICP3103', prerrequisitos: ['Sistemas Distribuidos'] },
+        { nombre: 'Administración de Empresas', codigo: 'ADM3001', prerrequisitos: ['Inglés Avanzado'] }
+    ]},
+    { semestre: '4to Semestre', ramos: [
+        { nombre: 'Taller de Título II', codigo: 'ICP4101', prerrequisitos: ['Taller de Título I'] },
+        { nombre: 'Electivo Profesional II', codigo: 'ICP4102', prerrequisitos: ['Electivo Profesional I'] },
+        { nombre: 'Auditoría de Sistemas', codigo: 'ICP4103', prerrequisitos: ['Seguridad Informática'] },
+        { nombre: 'Ética Profesional', codigo: 'HUM4001', prerrequisitos: ['Administración de Empresas'] }
+    ]}
+]
+        };
+
+        const carreraTitles = {
+            ejecucion: 'Ingeniería de Ejecución en Computación e Informática (1353)',
+            civil: 'Ingeniería Civil en Informática',
+            prosecucion: 'Prosecución en Ingeniería Civil en Informática'
+        };
+
+        const container = document.getElementById('mallaContainer');
+        const statsContainer = document.getElementById('statsContainer');
+        const carreraTitle = document.getElementById('carrera-title');
+        const botones = document.querySelectorAll('.nav-button');
+        
+        // Estado global para manejar ramos aprobados
+        let ramosAprobados = new Set();
+        let carreraActual = 'ejecucion';
+
+        function generateStats(carrera) {
+            const data = mallas[carrera];
+            const totalSemestres = data.length;
+            const totalRamos = data.reduce((total, semestre) => total + semestre.ramos.length, 0);
+            const años = Math.ceil(totalSemestres / 2);
+            const ramosAprobadosCount = ramosAprobados.size;
+            const porcentajeCompleto = Math.round((ramosAprobadosCount / totalRamos) * 100);
+            
+            return `
+                <div class="stat-item">
+                    <div class="stat-number">${años}</div>
+                    <div class="stat-label">Años de Estudio</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${totalSemestres}</div>
+                    <div class="stat-label">Semestres</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${ramosAprobadosCount}/${totalRamos}</div>
+                    <div class="stat-label">Ramos Aprobados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${porcentajeCompleto}%</div>
+                    <div class="stat-label">Progreso</div>
+                </div>
+            `;
+        }
+
+        function puedeTomarRamo(ramo) {
+            // Si no tiene prerrequisitos, se puede tomar
+            if (ramo.prerrequisitos.length === 0) {
+                return true;
+            }
+            
+            // Verificar si todos los prerrequisitos están aprobados
+            return ramo.prerrequisitos.every(prereq => ramosAprobados.has(prereq));
+        }
+
+        function getEstadoRamo(ramo) {
+            if (ramosAprobados.has(ramo.nombre)) {
+                return 'aprobado';
+            } else if (puedeTomarRamo(ramo)) {
+                return 'disponible';
+            } else {
+                return 'bloqueado';
+            }
+        }
+
+        function handleRamoClick(ramo) {
+            const estado = getEstadoRamo(ramo);
+            
+            if (estado === 'aprobado') {
+                // Si está aprobado, desaprobarlo
+                ramosAprobados.delete(ramo.nombre);
+            } else if (estado === 'disponible') {
+                // Si está disponible, aprobarlo
+                ramosAprobados.add(ramo.nombre);
+            }
+            // Si está bloqueado, no hacer nada
+            
+            // Re-renderizar para actualizar estados
+            renderMalla(carreraActual);
+        }
+
+        function renderMalla(carrera) {
+            carreraActual = carrera;
+            container.innerHTML = '';
+            carreraTitle.textContent = `${carreraTitles[carrera]}`;
+            
+            mallas[carrera].forEach((bloque, index) => {
+                const semestreDiv = document.createElement('div');
+                semestreDiv.className = 'semester-card';
+                
+                const title = document.createElement('h3');
+                title.className = 'semester-title';
+                title.innerHTML = `
+                    <span class="semester-number">${index + 1}</span>
+                    ${bloque.semestre}
+                `;
+                semestreDiv.appendChild(title);
+
+                const ramosContainer = document.createElement('ul');
+                ramosContainer.className = 'subject-list';
+
+                bloque.ramos.forEach(ramo => {
+                    const ramoItem = document.createElement('li');
+                    const estado = getEstadoRamo(ramo);
+                    
+                    ramoItem.className = `subject-item ${estado}`;
+                    
+                    let tooltipHtml = '';
+                    if (estado === 'bloqueado' && ramo.prerrequisitos.length > 0) {
+                        tooltipHtml = `<div class="prerequisite-tooltip">Prerrequisitos: ${ramo.prerrequisitos.join(', ')}</div>`;
+                    }
+                    
+                    ramoItem.innerHTML = `
+    			<span class="subject-code">${ramo.codigo}</span>
+    			${ramo.nombre}
+    			${tooltipHtml}
+		    `;
+                    
+                    // Solo agregar event listener si no está bloqueado
+                    if (estado !== 'bloqueado') {
+                        ramoItem.addEventListener('click', () => handleRamoClick(ramo));
+                    }
+                    
+                    ramosContainer.appendChild(ramoItem);
+                });
+
+                semestreDiv.appendChild(ramosContainer);
+                container.appendChild(semestreDiv);
+            });
+            
+            // Actualizar estadísticas
+            statsContainer.innerHTML = generateStats(carrera);
+        }
+
+        function resetProgress() {
+            ramosAprobados.clear();
+            renderMalla(carreraActual);
+        }
+
+        // Inicializar con algunos ramos del primer semestre disponibles
+        function initializeProgress() {
+            // Los ramos sin prerrequisitos del primer semestre están disponibles por defecto
+            const primerSemestre = mallas[carreraActual][0];
+            primerSemestre.ramos.forEach(ramo => {
+                if (ramo.prerrequisitos.length === 0) {
+                    // No los agregamos automáticamente a aprobados, solo los dejamos disponibles
+                }
+            });
+        }
+
+        botones.forEach(btn => {
+            btn.addEventListener('click', () => {
+                botones.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Limpiar progreso al cambiar de carrera
+                ramosAprobados.clear();
+                renderMalla(btn.dataset.carrera);
+            });
+        });
+
+        // Renderizar la malla por defecto
+        renderMalla('ejecucion');
+        initializeProgress();
+    </script>
+</body>
+</html>
