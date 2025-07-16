@@ -19,7 +19,7 @@
             --text-light: rgba(255, 255, 255, 0.9);
             --disabled-bg: rgba(255, 255, 255, 0.05);
             --disabled-text: rgba(255, 255, 255, 0.4);
-        }
+}
         
         * {
             margin: 0;
@@ -138,7 +138,7 @@
             line-height: 1.3;
         }
         
-        .nav-button:hover:not(.disabled) {
+        .nav-button:hover:not(.active) {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
         }
@@ -149,15 +149,23 @@
             box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
         }
         
-        /* Estilo para botones deshabilitados */
-        .nav-button.disabled {
-            background: var(--disabled-bg);
-            color: var(--disabled-text);
-            cursor: not-allowed;
-            opacity: 0.6;
-            position: relative;
-            pointer-events: none; /* Importante: evita que se haga clic */
+        .nav-button.active:hover {
+            background: var(--secondary-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
         }
+        
+
+/* Estilo para botones deshabilitados */
+.nav-button.disabled {
+    background: var(--disabled-bg);
+    color: var(--disabled-text);
+    cursor: not-allowed;
+    opacity: 0.6;
+    position: relative;
+    pointer-events: none;
+    transition: none; /* Sin transición para deshabilitados */
+}
         
         .nav-button.disabled::after {
             content: 'Próximamente';
@@ -285,6 +293,56 @@
             align-items: center;
             gap: 10px;
         }
+	
+
+        .semester-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .complete-semester-btn, .clear-semester-btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .complete-semester-btn {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .clear-semester-btn {
+            background: var(--secondary-gradient);
+            color: white;
+        }
+
+        .complete-semester-btn:hover:not(:disabled),
+        .clear-semester-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .complete-semester-btn:active:not(:disabled),
+        .clear-semester-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .complete-semester-btn:disabled,
+        .clear-semester-btn:disabled {
+            background: rgba(128, 128, 128, 0.3);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+        }
+
         
         .semester-number {
             background: var(--secondary-gradient);
@@ -336,6 +394,24 @@
             background: linear-gradient(135deg, #45a049 0%, #388e3c 100%);
             transform: translateX(5px) scale(1.02);
         }
+
+
+
+        .subject-item.convalidado {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: #f0f9ff;
+            font-weight: 600;
+            border-left-color: #0369a1;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .subject-item.convalidado:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateX(5px) scale(1.02);
+            color: #ffffff;
+        }
+
+
         
         /* Nuevo estilo para ramos bloqueados */
         .subject-item.bloqueado {
@@ -469,6 +545,214 @@
         .reset-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+
+        /* Toggle Switch para Convalidación */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px auto;
+            padding: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 280px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(25px);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border-radius: 30px;
+        }
+
+        .toggle-switch.active::before {
+            opacity: 1;
+        }
+
+        .toggle-switch.active {
+            border-color: rgba(79, 172, 254, 0.4);
+            box-shadow: 
+                0 12px 40px rgba(79, 172, 254, 0.3),
+                0 0 0 1px rgba(79, 172, 254, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 130px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 25px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #334155;
+            z-index: 2;
+            position: relative;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: 25px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toggle-slider:hover::before {
+            opacity: 1;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(140px);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            color: #0369a1;
+            box-shadow: 
+                0 6px 20px rgba(79, 172, 254, 0.3),
+                0 2px 8px rgba(79, 172, 254, 0.2);
+        }
+
+        .toggle-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .toggle-label-left, .toggle-label-right {
+            flex: 1;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.4s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-label-left {
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0.6;
+            transform: translateX(10px);
+        }
+
+        .toggle-label-right {
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0.6;
+            transform: translateX(-10px);
+        }
+
+        .toggle-switch.active .toggle-label-left {
+            opacity: 1;
+            color: white;
+            transform: translateX(0);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active .toggle-label-right {
+            opacity: 0.4;
+            transform: translateX(-15px);
+        }
+
+        .toggle-switch:not(.active) .toggle-label-left {
+            opacity: 0.4;
+            transform: translateX(15px);
+        }
+
+        .toggle-switch:not(.active) .toggle-label-right {
+            opacity: 1;
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateX(0);
+        }
+
+        /* Animación de pulso para el estado activo */
+        .toggle-switch.active {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 
+                    0 12px 40px rgba(79, 172, 254, 0.3),
+                    0 0 0 1px rgba(79, 172, 254, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 
+                    0 12px 40px rgba(79, 172, 254, 0.4),
+                    0 0 0 2px rgba(79, 172, 254, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Efectos de hover */
+        .toggle-switch:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 45px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .toggle-switch.active:hover {
+            box-shadow: 
+                0 15px 50px rgba(79, 172, 254, 0.4),
+                0 0 0 2px rgba(79, 172, 254, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Iconos para el slider */
+        .toggle-slider-content {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 3;
+            position: relative;
+        }
+
+        .toggle-icon {
+            font-size: 1rem;
+            opacity: 0.8;
         }
         
         /* Footer */
@@ -607,11 +891,6 @@
                 min-width: 70px;
             }
             
-            .nav-button.disabled::after {
-                font-size: 0.55rem;
-                bottom: -13px;
-            }
-            
             .curriculum-grid {
                 grid-template-columns: 1fr;
             }
@@ -654,11 +933,6 @@
                 min-width: 60px;
             }
             
-            .nav-button.disabled::after {
-                font-size: 0.5rem;
-                bottom: -11px;
-            }
-            
             .semester-card {
                 padding: 20px;
                 min-height: 300px;
@@ -673,77 +947,102 @@
                 padding: 10px;
             }
         }
-    </style>
-</head>
-<body>
-    <!-- Elementos de fondo animados -->
-    <div class="bg-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">Universidad de Santiago<br>de Chile</div>
-            <ul class="nav-links">
-                <li><button class="nav-button active" data-carrera="ejecucion">Ingeniería de Ejecución<br>en Computación e Informática</button></li>
-                <li><button class="nav-button disabled" data-carrera="civil">Ingeniería Civil<br>en Informática</button></li>
-                <li><button class="nav-button disabled" data-carrera="prosecucion">Prosecución en<br>Ingeniería Civil en Informática</button></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 id="carrera-title">Ingeniería de Ejecución en Computación e Informática</h1>
-    </section>
-    
-    <!-- Curriculum Section -->
-    <section class="curriculum-section" id="programa">
-        <h2 class="section-title">Malla Curricular</h2>
         
-        <button class="reset-button" onclick="resetProgress()">🔄 Reiniciar Progreso</button>
-        
-        <div class="curriculum-grid" id="mallaContainer">
-            <!-- El contenido se generará dinámicamente -->
-        </div>
-        
-        <!-- Stats Section -->
-        <div class="stats-section">
-            <div class="stats-grid" id="statsContainer">
-                <!-- Las estadísticas se generarán dinámicamente -->
+        </style>
+        </head>
+        <body>
+            
+            <!-- Elementos de fondo animados -->
+             <div class="bg-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
             </div>
-        </div>
-    </section>
     
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-signature">
-                <div class="footer-avatar">F</div>
-                <div>
-                    <div class="footer-username">@Friedemmm</div>
+            <!-- Header -->
+            <header class="header">
+                <nav class="nav-container">
+                    <div class="logo">Universidad de Santiago<br>de Chile</div>
+                    <ul class="nav-links">
+                        <li><button class="nav-button active" data-carrera="ejecucion">Ingeniería de Ejecución<br>en Computación e Informática</button></li>
+                        <li><button class="nav-button" data-carrera="civil">Ingeniería Civil<br>en Informática</button></li>
+                        <li><button class="nav-button disabled" data-carrera="prosecucion">Prosecución en<br>Ingeniería Civil en Informática</button></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 id="carrera-title">Ingeniería de Ejecución en Computación e Informática</h1>
+            </section>
+            
+            <!-- Curriculum Section -->
+            <section class="curriculum-section" id="programa">
+                <h2 class="section-title">Malla Curricular</h2>
+                
+                <button class="reset-button" onclick="resetProgress()">🔄 Reiniciar Progreso</button>
+                <div class="toggle-container" id="convalidacionContainer" style="display: none;">
+                    <div class="toggle-switch" id="convalidacionToggle">
+                        <div class="toggle-labels">
+                            <span class="toggle-label-left">NORMAL</span>
+                            <span class="toggle-label-right">CONVALIDAR</span>
+                        </div>
+                        <div class="toggle-slider">
+                            <div class="toggle-slider-content">
+                                <span class="toggle-icon">📋</span>
+                                <span>NORMAL</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-		<div class="footer-links">
-                <a href="https://github.com/Friedemmm" target="_blank">GitHub</a>
-                <a href="https://www.linkedin.com/in/sofía-vergara-godoy/" target="_blank">LinkedIn</a>
-            </div>
-		<br>
-	    </div>
-            <div class="footer-description">
-                Malla interactiva correspondiente a las carreras del<br>Departamento de Informática de la Universidad de Santiago de Chile (USACH).
-            </div>
-        </div>
-    </footer>
-    
-    <script>        // Datos de las mallas con prerrequisitos
-        const mallas = {
-            ejecucion: [
-    { 
-        semestre: 'Primer Semestre', 
+                
+                <div class="curriculum-grid" id="mallaContainer">
+                    <!-- El contenido se generará dinámicamente -->
+                    </div>
+                    
+                    <!-- Stats Section -->
+                    <div class="stats-section">
+                        <div class="stats-grid" id="statsContainer">
+                            <!-- Las estadísticas se generarán dinámicamente -->
+                            </div>
+                            
+                            <!-- Advertencia de requisitos solo para prosecución -->
+                             <div id="advertenciaRequisitos" style="margin-top: 30px; text-align: center; display: none;">
+                                <p style="color: var(--text-light); opacity: 0.8; font-size: 0.5 rem;">
+                                    ⚠️<strong>REQUISITOS PARA CONVALIDACIÓN</strong>: Título de Ingeniero de Ejecución en Computación e Informática (USACH) o asignaturas cursadas en el DIINF USACH⚠️
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        <div class="footer-content">
+                            <div class="footer-signature">
+                                <div class="footer-avatar">F</div>
+                                <div>
+                                    <div class="footer-username">@Friedemmm</div>
+                                </div>
+                            </div>
+                            <div class="footer-links">
+                                <a href="https://github.com/Friedemmm" target="_blank">GitHub</a>
+                                <a href="https://www.linkedin.com/in/sofía-vergara-godoy/" target="_blank">LinkedIn</a>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="footer-description">
+                            Malla interactiva correspondiente a las carreras del<br>Departamento de Informática de la Universidad de Santiago de Chile (USACH).
+                        </div>
+                    </div>
+                </footer>
+                <script>
+                
+// Datos de las mallas con prerrequisitos
+const mallas = {
+ejecucion: 
+[
+    {
+    semestre: 'Primer Semestre', 
         ramos: [
             { nombre: 'Cálculo I', codigo: '10101', prerrequisitos: [] },
             { nombre: 'Álgebra I', codigo: '10102', prerrequisitos: [] },
@@ -790,11 +1089,11 @@
         semestre: 'Quinto Semestre', 
         ramos: [
             { nombre: 'Inglés III', codigo: '10132', prerrequisitos: ['Inglés II'] },
-            { nombre: 'Fundamentos de Ingeniería de Software', codigo: 'ICI3241', prerrequisitos: ['Paradigmas de Programación'] },
-            { nombre: 'Informática y Sociedad', codigo: '13209', prerrequisitos: ['Comunicación Efectiva'] },
-            { nombre: 'Sistemas de Información', codigo: '13260', prerrequisitos: ['Ingeniería de Sistemas'] },
-            { nombre: 'Diseño de Base de Datos', codigo: '13261', prerrequisitos: ['Paradigmas de Programación'] },
-            { nombre: 'Organización de Computadores', codigo: '13274', prerrequisitos: ['Estructura de Computadores'] },
+            { nombre: 'Fundamentos de Ingeniería de Software', codigo: '13209', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Informática y Sociedad', codigo: '13260', prerrequisitos: ['Comunicación Efectiva'] },
+            { nombre: 'Sistemas de Información', codigo: '13261', prerrequisitos: ['Ingeniería de Sistemas'] },
+            { nombre: 'Diseño de Base de Datos', codigo: '13274', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Organización de Computadores', codigo: '13275', prerrequisitos: ['Estructura de Computadores'] },
             { nombre: 'Evaluación de Proyectos Informáticos', codigo: '13288', prerrequisitos: ['Fundamentos de Economía', 'Ecuaciones Diferenciales y Métodos Numéricos'] }
         ]
     },
@@ -813,7 +1112,7 @@
         semestre: 'Séptimo Semestre', 
         ramos: [
             { nombre: 'Proyecto de Ingeniería de Software', codigo: '13267', prerrequisitos: ['Taller de Bases de Datos', 'Técnicas de Ingeniería de Software', 'Administración de Proyectos Informáticos'] },
-	{ nombre: 'Tópicos de Especialidad I', codigo: '13268', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales'] },
+            { nombre: 'Tópicos de Especialidad I', codigo: '13268', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales'] },
             { nombre: 'Tópicos de Especialidad II', codigo: '13269', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales'] },
             { nombre: 'Tópicos de Especialidad III', codigo: '13270', prerrequisitos: ['Técnicas de Ingeniería de Software', 'Redes Computacionales', 'Administración de Proyectos Informáticos'] },
             { nombre: 'Seminario de Computación e Informática', codigo: '13276', prerrequisitos: ['Sistemas Operativos', 'Taller de Bases de Datos', 'Informática y Sociedad', 'Sistemas de Información'] }
@@ -826,247 +1125,550 @@
         ]
     }
 ],
-           civil: [
-    { semestre: '1er Semestre', ramos: [
-        { nombre: 'Fundamentos de Computación', codigo: 'ICC1101', prerrequisitos: [] },
-        { nombre: 'Matemática Discreta', codigo: 'MAT1601', prerrequisitos: [] },
-        { nombre: 'Lógica de Programación', codigo: 'ICC1102', prerrequisitos: [] },
-        { nombre: 'Química General', codigo: 'QUI1041', prerrequisitos: [] }
-    ]},
-    { semestre: '2do Semestre', ramos: [
-        { nombre: 'Estructuras de Datos', codigo: 'ICC2101', prerrequisitos: ['Fundamentos de Computación'] },
-        { nombre: 'Cálculo I', codigo: 'MAT1610', prerrequisitos: ['Matemática Discreta'] },
-        { nombre: 'Física para Ingeniería', codigo: 'FIS1533', prerrequisitos: ['Química General'] },
-        { nombre: 'Álgebra Lineal', codigo: 'MAT1630', prerrequisitos: ['Matemática Discreta'] }
-    ]},
-    { semestre: '3er Semestre', ramos: [
-        { nombre: 'Algoritmos y Complejidad', codigo: 'ICC3101', prerrequisitos: ['Estructuras de Datos'] },
-        { nombre: 'Cálculo II', codigo: 'MAT1620', prerrequisitos: ['Cálculo I'] },
-        { nombre: 'Mecánica', codigo: 'FIS2533', prerrequisitos: ['Física para Ingeniería'] },
-        { nombre: 'Probabilidades', codigo: 'EST2011', prerrequisitos: ['Álgebra Lineal'] }
-    ]},
-    { semestre: '4to Semestre', ramos: [
-        { nombre: 'Bases de Datos', codigo: 'ICC4101', prerrequisitos: ['Algoritmos y Complejidad'] },
-        { nombre: 'Cálculo III', codigo: 'MAT2610', prerrequisitos: ['Cálculo II'] },
-        { nombre: 'Electromagnetismo', codigo: 'FIS2534', prerrequisitos: ['Mecánica'] },
-        { nombre: 'Métodos Numéricos', codigo: 'MAT2650', prerrequisitos: ['Probabilidades'] }
-    ]},
-    { semestre: '5to Semestre', ramos: [
-        { nombre: 'Ingeniería de Software', codigo: 'ICC5101', prerrequisitos: ['Bases de Datos'] },
-        { nombre: 'Ecuaciones Diferenciales', codigo: 'MAT2640', prerrequisitos: ['Cálculo III'] },
-        { nombre: 'Sistemas Operativos', codigo: 'ICC5102', prerrequisitos: ['Algoritmos y Complejidad'] },
-        { nombre: 'Investigación Operativa', codigo: 'ING2089', prerrequisitos: ['Métodos Numéricos'] }
-    ]},
-    { semestre: '6to Semestre', ramos: [
-        { nombre: 'Redes de Computadores', codigo: 'ICC6101', prerrequisitos: ['Sistemas Operativos'] },
-        { nombre: 'Análisis de Algoritmos', codigo: 'ICC6102', prerrequisitos: ['Ecuaciones Diferenciales'] },
-        { nombre: 'Arquitectura de Computadores', codigo: 'ICC6103', prerrequisitos: ['Sistemas Operativos'] },
-        { nombre: 'Teoría de la Computación', codigo: 'ICC6104', prerrequisitos: ['Investigación Operativa'] }
-    ]},
-    { semestre: '7mo Semestre', ramos: [
-        { nombre: 'Inteligencia Artificial', codigo: 'ICC7101', prerrequisitos: ['Análisis de Algoritmos'] },
-        { nombre: 'Compiladores', codigo: 'ICC7102', prerrequisitos: ['Teoría de la Computación'] },
-        { nombre: 'Sistemas Distribuidos', codigo: 'ICC7103', prerrequisitos: ['Redes de Computadores'] },
-        { nombre: 'Optimización', codigo: 'ICC7104', prerrequisitos: ['Análisis de Algoritmos'] }
-    ]},
-    { semestre: '8vo Semestre', ramos: [
-        { nombre: 'Taller de Título I', codigo: 'ICC8101', prerrequisitos: ['Ingeniería de Software'] },
-        { nombre: 'Electivo Profesional I', codigo: 'ICC8102', prerrequisitos: ['Inteligencia Artificial'] },
-        { nombre: 'Electivo Profesional II', codigo: 'ICC8103', prerrequisitos: ['Compiladores'] },
-        { nombre: 'Ética Profesional', codigo: 'HUM8001', prerrequisitos: [] }
-    ]}
+civil: 
+[
+    { 
+        semestre: 'Primer Semestre', 
+        ramos: [
+            { nombre: 'Cálculo I', codigo: '10138', prerrequisitos: [] },
+            { nombre: 'Álgebra I', codigo: '10139', prerrequisitos: [] },
+            { nombre: 'Física I', codigo: '10140', prerrequisitos: [] },
+            { nombre: 'Introducción al Diseño en Ingeniería', codigo: '10141', prerrequisitos: [] },
+            { nombre: 'Ingeniería y Sostenibilidad', codigo: '13344', prerrequisitos: [] }
+        ]
+    },
+    { semestre: 'Segundo Semestre', 
+        ramos: [
+            { nombre: 'Cálculo II', codigo: '10142', prerrequisitos: ['Cálculo I'] },
+            { nombre: 'Álgebra II', codigo: '10143', prerrequisitos: ['Álgebra I'] },
+            { nombre: 'Física II', codigo: '10144', prerrequisitos: ['Física I'] },
+            { nombre: 'Fundamentos de Programación', codigo: '10145', prerrequisitos: ['Introducción al Diseño en Ingeniería'] },
+            { nombre: 'Introducción a la Ingeniería Informática', codigo: '13301', prerrequisitos: ['Introducción al Diseño en Ingeniería'] },
+            { nombre: 'Fundamentos de Computación', codigo: '13302', prerrequisitos: ['Introducción al Diseño en Ingeniería'] }
+        ]
+    },
+    { semestre: 'Tercer Semestre', 
+        ramos: [
+            { nombre: 'Inglés I', codigo: '10130', prerrequisitos: [] },
+            { nombre: 'Cálculo III', codigo: '10146', prerrequisitos: ['Cálculo II'] },
+            { nombre: 'Fundamentos de Economía', codigo: '10157', prerrequisitos: ['Cálculo I'] },
+            { nombre: 'Electricidad, Magnetismo y Ondas', codigo: '13305', prerrequisitos: ['Cálculo II', 'Física II'] },
+            { nombre: 'Estructura de Datos', codigo: '13345', prerrequisitos: ['Fundamentos de Programación', 'Fundamentos de Computación'] },
+            { nombre: 'Diseño de Algoritmos', codigo: '13346', prerrequisitos: ['Fundamentos de Programación', 'Introducción a la Ingeniería Informática', 'Fundamentos de Computación'] }
+        ]
+    },
+    { semestre: 'Cuarto Semestre', 
+        ramos: [
+            { nombre: 'Inglés II', codigo: '10131', prerrequisitos: ['Inglés I'] },
+            { nombre: 'Taller de Diseño en Ingeniería', codigo: '10148', prerrequisitos: ['Fundamentos de Economía'] },
+            { nombre: 'Ecuaciones Diferenciales y Métodos Numéricos', codigo: '13307', prerrequisitos: ['Cálculo III', 'Fundamentos de Programación'] },
+            { nombre: 'Diseño de Bases de Datos', codigo: '13308', prerrequisitos: ['Álgebra II', 'Fundamentos de Computación'] },
+            { nombre: 'Arquitectura de Computadores', codigo: '13309', prerrequisitos: ['Electricidad, Magnetismo y Ondas', 'Fundamentos de Computación'] },
+            { nombre: 'Paradigmas de Programación', codigo: '13310', prerrequisitos: ['Estructura de Datos', 'Diseño de Algoritmos'] }
+        ]
+    },
+    { 
+        semestre: 'Quinto Semestre', 
+        ramos: [
+            { nombre: 'Inglés III', codigo: '10132', prerrequisitos: ['Inglés II'] },
+            { nombre: 'Estadística Computacional', codigo: '13311', prerrequisitos: ['Cálculo III', 'Fundamentos de Programación'] },
+            { nombre: 'Teoría de la Computación', codigo: '13312', prerrequisitos: ['Estructura de Datos', 'Diseño de Algoritmos'] },
+            { nombre: 'Sistemas Operativos', codigo: '13313', prerrequisitos: ['Arquitectura de Computadores', 'Ingeniería y Sostenibilidad'] },
+            { nombre: 'Fundamentos de Ingeniería de Software', codigo: '13314', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Taller de Programación', codigo: '13315', prerrequisitos: ['Paradigmas de Programación'] }
+        ]
+    },
+    { 
+        semestre: 'Sexto Semestre', 
+        ramos: [
+            { nombre: 'Inglés IV', codigo: '10133', prerrequisitos: ['Inglés III'] },
+            { nombre: 'Estadística Inferencial', codigo: '13316', prerrequisitos: ['Estadística Computacional', 'Inglés II'] },
+            { nombre: 'Bases de Datos Avanzadas', codigo: '13317', prerrequisitos: ['Sistemas Operativos', 'Diseño de Bases de Datos'] },
+            { nombre: 'Procesamiento de Señales e Imágenes', codigo: '13318', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Técnicas de Ingeniería de Software', codigo: '13319', prerrequisitos: ['Fundamentos de Ingeniería de Software', 'Diseño de Bases de Datos'] },
+            { nombre: 'Evaluación de Proyectos', codigo: '13320', prerrequisitos: ['Taller de Diseño en Ingeniería', 'Fundamentos de Economía'] }
+        ]
+    },
+    { 
+        semestre: 'Séptimo Semestre', 
+        ramos: [
+            { nombre: 'Modelos y Simulación', codigo: '13321', prerrequisitos: ['Estadística Computacional', 'Ecuaciones Diferenciales y Métodos Numéricos'] },
+            { nombre: 'Métodos de Optimización', codigo: '13322', prerrequisitos: ['Teoría de la Computación', 'Cálculo III'] },
+            { nombre: 'Redes de Comunicación', codigo: '13323', prerrequisitos: ['Procesamiento de Señales e Imágenes', 'Sistemas Operativos'] },
+            { nombre: 'Gestión de Proyectos TI', codigo: '13324', prerrequisitos: ['Evaluación de Proyectos', 'Fundamentos de Ingeniería de Software'] },
+            { nombre: 'Innovación y Emprendimiento', codigo: '13325', prerrequisitos: ['Evaluación de Proyectos', 'Taller de Programación'] },
+            { nombre: 'Formación Integral I', codigo: '13326', prerrequisitos: ['Inglés III'] }
+        ]
+    },
+    { 
+        semestre: 'Octavo Semestre', 
+        ramos: [
+            { nombre: 'Análisis de Datos', codigo: '13327', prerrequisitos: ['Modelos y Simulación', 'Métodos de Optimización'] },
+            { nombre: 'Ciberseguridad', codigo: '13328', prerrequisitos: ['Redes de Comunicación', 'Inglés IV'] },
+            { nombre: 'Sistemas Distribuidos y Paralelos', codigo: '13329', prerrequisitos: ['Redes de Comunicación', 'Bases de Datos Avanzadas'] },
+            { nombre: 'Proyecto de Ingeniería de Software', codigo: '13331', prerrequisitos: ['Bases de Datos Avanzadas', 'Técnicas de Ingeniería de Software'] },
+            { nombre: 'Formación Integral II', codigo: '13332', prerrequisitos: ['Inglés IV'] },
+            { nombre: 'Gestión de Servicios TI', codigo: '13347', prerrequisitos: ['Gestión de Proyectos TI'] }
+        ]
+    },
+    { 
+        semestre: 'Noveno Semestre', 
+        ramos: [
+            { nombre: 'Aprendizaje Automático', codigo: '13333', prerrequisitos: ['Análisis de Datos'] },
+            { nombre: 'Tópico de Especialidad I', codigo: '13334', prerrequisitos: ['Modelos y Simulación', 'Métodos de Optimización'] },
+            { nombre: 'Tópico de Especialidad II', codigo: '13335', prerrequisitos: ['Redes de Comunicación', 'Gestión de Proyectos TI', 'Innovación y Emprendimiento'] },
+            { nombre: 'Gobernanza y Gestión TI', codigo: '13336', prerrequisitos: ['Ciberseguridad', 'Gestión de Servicios TI'] },
+            { nombre: 'Electivo I', codigo: '13337', prerrequisitos: ['Proyecto de Ingeniería de Software'] }
+        ]
+    },
+    { 
+        semestre: 'Décimo Semestre', 
+        ramos: [
+            { nombre: 'Seminario de Informática', codigo: '13338', prerrequisitos: ['Electivo I', 'Formación Integral II', 'Formación Integral I'] },
+            { nombre: 'Tópico de Especialidad III', codigo: '13339', prerrequisitos: ['Tópico de Especialidad I'] },
+            { nombre: 'Tópico de Especialidad IV', codigo: '13340', prerrequisitos: ['Tópico de Especialidad II'] },
+            { nombre: 'Electivo Interdisciplinario', codigo: '13341', prerrequisitos: ['Proyecto de Ingeniería de Software', 'Formación Integral II'] },
+            { nombre: 'Electivo II', codigo: '13342', prerrequisitos: ['Electivo I'] }
+        ]
+    },
+    { 
+        semestre: 'Undécimo Semestre', 
+        ramos: [
+            { nombre: 'Trabajo de Titulación', codigo: '13343', prerrequisitos: ['Seminario de Informática', 'Electivo II', 'Aprendizaje Automático', 'Gobernanza y Gestión TI'] }
+        ]
+    }
 ],
 
-prosecucion: [
-    { semestre: '1er Semestre', ramos: [
-        { nombre: 'Bases de Datos Avanzadas', codigo: 'ICP1101', prerrequisitos: [] },
-        { nombre: 'Ingeniería de Software', codigo: 'ICP1102', prerrequisitos: [] },
-        { nombre: 'Redes de Computadores', codigo: 'ICP1103', prerrequisitos: [] },
-        { nombre: 'Metodología de la Investigación', codigo: 'ICP1104', prerrequisitos: [] }
-    ]},
-    { semestre: '2do Semestre', ramos: [
-        { nombre: 'Sistemas Distribuidos', codigo: 'ICP2101', prerrequisitos: ['Redes de Computadores'] },
-        { nombre: 'Inteligencia Artificial', codigo: 'ICP2102', prerrequisitos: ['Bases de Datos Avanzadas'] },
-        { nombre: 'Gestión de Proyectos', codigo: 'ICP2103', prerrequisitos: ['Ingeniería de Software'] },
-        { nombre: 'Inglés Avanzado', codigo: 'ING2024', prerrequisitos: ['Metodología de la Investigación'] }
-    ]},
-    { semestre: '3er Semestre', ramos: [
-        { nombre: 'Taller de Título I', codigo: 'ICP3101', prerrequisitos: ['Gestión de Proyectos'] },
-        { nombre: 'Electivo Profesional I', codigo: 'ICP3102', prerrequisitos: ['Inteligencia Artificial'] },
-        { nombre: 'Seguridad Informática', codigo: 'ICP3103', prerrequisitos: ['Sistemas Distribuidos'] },
-        { nombre: 'Administración de Empresas', codigo: 'ADM3001', prerrequisitos: ['Inglés Avanzado'] }
-    ]},
-    { semestre: '4to Semestre', ramos: [
-        { nombre: 'Taller de Título II', codigo: 'ICP4101', prerrequisitos: ['Taller de Título I'] },
-        { nombre: 'Electivo Profesional II', codigo: 'ICP4102', prerrequisitos: ['Electivo Profesional I'] },
-        { nombre: 'Auditoría de Sistemas', codigo: 'ICP4103', prerrequisitos: ['Seguridad Informática'] },
-        { nombre: 'Ética Profesional', codigo: 'HUM4001', prerrequisitos: ['Administración de Empresas'] }
-    ]}
+prosecucion: 
+[
+    { 
+        semestre: 'Primer Semestre', 
+        ramos: [
+            { nombre: 'Paradigmas de Programación', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Estructura de Computadores', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Matemática Avanzada', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Inglés III', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Segundo Semestre', 
+        ramos: [
+            { nombre: 'Fundamentos de Ingeniería de Software', codigo: '-', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Análisis de Algoritmos y Estructura de Datos', codigo: '-', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Base de Datos', codigo: '-', prerrequisitos: ['Paradigmas de Programación'] },
+            { nombre: 'Organización de Computadores', codigo: '-', prerrequisitos: ['Estructura de Computadores'] },
+            { nombre: 'Inglés IV', codigo: '-', prerrequisitos: ['Inglés III'] }
+        ]
+    },
+    { 
+        semestre: 'Tercer Semestre', 
+        ramos: [
+            { nombre: 'Interferencia y Modelos Estadísticos', codigo: '-', prerrequisitos: ['Matemática Avanzada'] },
+            { nombre: 'Procesamiento de Lenguajes Formales', codigo: '-', prerrequisitos: ['Matemática Avanzada'] },
+            { nombre: 'Redes de Computadores', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Finanzas y Contabilidad', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Sistemas Operativos', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Cuarto Semestre', 
+        ramos: [
+            { nombre: 'Ciencia, Tecnología y Sociedad', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Análisis de Datos', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Teoría de la Computación', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Algoritmos Numéricos', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Ingeniería de Sistemas', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Quinto Semestre', 
+        ramos: [
+            { nombre: 'Métodos de Optimización', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Modelación y Simulación', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Sistemas de Comunicación', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Evaluación de Proyectos', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Administración de Proyectos de Software', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Sexto Semestre', 
+        ramos: [
+            { nombre: 'Seguridad de Auditoría Informática', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Proyecto de Ingenería de Software', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Dirección y Gestión de Empresas', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Macroeconomía y Globalización', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Sistemas Distribuidos', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Séptimo Semestre', 
+        ramos: [
+            { nombre: 'Tópicos de Especialidad I', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Tópicos de Especialidad II', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Tópicos de Especialidad III', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Proyecto de Ingeniería de Software', codigo: '-', prerrequisitos: [] },
+            { nombre: 'Seminario de Informática', codigo: '-', prerrequisitos: [] }
+        ]
+    },
+    { 
+        semestre: 'Octavo Semestre', 
+        ramos: [
+            { nombre: 'Trabajo de Titulación', codigo: '-', prerrequisitos: ['Seminario de Computación e Informática'] },
+            { nombre: 'Tópicos de Especialidad IV', codigo: '-', prerrequisitos: [] }
+        ]
+    }
 ]
-        };
+};
 
-        const carreraTitles = {
-            ejecucion: 'Ingeniería de Ejecución en Computación e Informática (1353)',
-            civil: 'Ingeniería Civil en Informática',
-            prosecucion: 'Prosecución en Ingeniería Civil en Informática'
-        };
+const carreraTitles = {
+    ejecucion: 'Ingeniería de Ejecución en Computación e Informática (1353)',
+    civil: 'Ingeniería Civil en Informática (1463)',
+    prosecucion: 'Prosecución en Ingeniería Civil en Informática'
+};
 
-        const container = document.getElementById('mallaContainer');
-        const statsContainer = document.getElementById('statsContainer');
-        const carreraTitle = document.getElementById('carrera-title');
-        const botones = document.querySelectorAll('.nav-button');
+const container = document.getElementById('mallaContainer');
+const statsContainer = document.getElementById('statsContainer');
+const carreraTitle = document.getElementById('carrera-title');
+const botones = document.querySelectorAll('.nav-button');
         
-        // Estado global para manejar ramos aprobados
-        let ramosAprobados = new Set();
-        let carreraActual = 'ejecucion';
+// Estado global para manejar ramos aprobados
+let ramosAprobados = new Set();
+let carreraActual = 'ejecucion';
+let ramosConvalidados = new Set();
 
-        function generateStats(carrera) {
-            const data = mallas[carrera];
-            const totalSemestres = data.length;
-            const totalRamos = data.reduce((total, semestre) => total + semestre.ramos.length, 0);
-            const años = Math.ceil(totalSemestres / 2);
-            const ramosAprobadosCount = ramosAprobados.size;
-            const porcentajeCompleto = Math.round((ramosAprobadosCount / totalRamos) * 100);
+function generateStats(carrera) {
+    const data = mallas[carrera];
+    const totalSemestres = data.length;
+    const totalRamos = data.reduce((total, semestre) => total + semestre.ramos.length, 0);
+    const años = Math.ceil(totalSemestres / 2);
+    const ramosAprobadosCount = ramosAprobados.size + ramosConvalidados.size;
+    const porcentajeCompleto = Math.round((ramosAprobadosCount / totalRamos) * 100);
             
-            return `
-                <div class="stat-item">
-                    <div class="stat-number">${años}</div>
-                    <div class="stat-label">Años de Estudio</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">${totalSemestres}</div>
-                    <div class="stat-label">Semestres</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">${ramosAprobadosCount}/${totalRamos}</div>
-                    <div class="stat-label">Ramos Aprobados</div>
+    return `
+    <div class="stat-item">
+        <div class="stat-number">${años}</div>
+        <div class="stat-label">Años de Estudio</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">${totalSemestres}</div>
+            <div class="stat-label">Semestres</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">${ramosAprobadosCount}/${totalRamos}</div>
+                <div class="stat-label">Ramos Aprobados</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">${porcentajeCompleto}%</div>
                     <div class="stat-label">Progreso</div>
-                </div>
-            `;
-        }
+                    </div>
+                    `;
+}
 
-        function puedeTomarRamo(ramo) {
-            // Si no tiene prerrequisitos, se puede tomar
-            if (ramo.prerrequisitos.length === 0) {
-                return true;
-            }
+function puedeTomarRamo(ramo) {
+    // Si no tiene prerrequisitos, se puede tomar
+    if (ramo.prerrequisitos.length === 0) {
+        return true;
+    }
             
-            // Verificar si todos los prerrequisitos están aprobados
-            return ramo.prerrequisitos.every(prereq => ramosAprobados.has(prereq));
-        }
+    // Verificar si todos los prerrequisitos están aprobados
+    return ramo.prerrequisitos.every(prereq => ramosAprobados.has(prereq));
+}
 
-        function getEstadoRamo(ramo) {
-            if (ramosAprobados.has(ramo.nombre)) {
-                return 'aprobado';
-            } else if (puedeTomarRamo(ramo)) {
-                return 'disponible';
-            } else {
-                return 'bloqueado';
-            }
-        }
+function getEstadoRamo(ramo) {
+    if (ramosConvalidados.has(ramo.nombre)) {
+        return 'convalidado';
+    } 
+    else if (ramosAprobados.has(ramo.nombre)) {
+        return 'aprobado';
+    } 
+    else if (puedeTomarRamo(ramo)) {
+        return 'disponible';
+    } 
+    else {
+        return 'bloqueado';
+    }
+}
 
-        function handleRamoClick(ramo) {
-            const estado = getEstadoRamo(ramo);
-            
-            if (estado === 'aprobado') {
-                // Si está aprobado, desaprobarlo
-                ramosAprobados.delete(ramo.nombre);
-            } else if (estado === 'disponible') {
-                // Si está disponible, aprobarlo
-                ramosAprobados.add(ramo.nombre);
-            }
-            // Si está bloqueado, no hacer nada
-            
-            // Re-renderizar para actualizar estados
-            renderMalla(carreraActual);
-        }
+function handleRamoClick(ramo) {
+    const estado = getEstadoRamo(ramo);
+    
+    if (estado === 'convalidado') {
+        // Si está convalidado, pasarlo a estado normal (no aprobado)
+        ramosConvalidados.delete(ramo.nombre);
+        // Aplicar cascada para desaprobar ramos dependientes
+        desaprobarRamosCascada(ramo.nombre);
+    } 
+    else if (estado === 'aprobado') {
+        // Si está aprobado, desaprobarlo
+        ramosAprobados.delete(ramo.nombre);
+        // Aplicar cascada para desaprobar ramos dependientes
+        desaprobarRamosCascada(ramo.nombre);
+    } 
+    else if (estado === 'disponible') {
+        // Si está disponible, aprobarlo
+        ramosAprobados.add(ramo.nombre);
+    }
+    // Si está bloqueado, no hacer nada
+    
+    // Re-renderizar para actualizar estados
+    renderMalla(carreraActual);
+}
 
-        function renderMalla(carrera) {
-            carreraActual = carrera;
-            container.innerHTML = '';
-            carreraTitle.textContent = `${carreraTitles[carrera]}`;
-            
-            mallas[carrera].forEach((bloque, index) => {
-                const semestreDiv = document.createElement('div');
-                semestreDiv.className = 'semester-card';
+function renderMalla(carrera) {
+    carreraActual = carrera;
+    container.innerHTML = '';
+    carreraTitle.textContent = `${carreraTitles[carrera]}`;
+        
+    mallas[carrera].forEach((bloque, index) => {
+    const semestreDiv = document.createElement('div');
+    semestreDiv.className = 'semester-card';
                 
-                const title = document.createElement('h3');
-                title.className = 'semester-title';
-                title.innerHTML = `
-                    <span class="semester-number">${index + 1}</span>
-                    ${bloque.semestre}
-                `;
-                semestreDiv.appendChild(title);
 
-                const ramosContainer = document.createElement('ul');
-                ramosContainer.className = 'subject-list';
+    const title = document.createElement('h3');
+    title.className = 'semester-title';
+    title.innerHTML = `
+        <span class="semester-number">${index + 1}</span>
+            ${bloque.semestre}
+        `;
+    semestreDiv.appendChild(title);
 
-                bloque.ramos.forEach(ramo => {
-                    const ramoItem = document.createElement('li');
-                    const estado = getEstadoRamo(ramo);
-                    
-                    ramoItem.className = `subject-item ${estado}`;
-                    
-                    let tooltipHtml = '';
-                    if (estado === 'bloqueado' && ramo.prerrequisitos.length > 0) {
-                        tooltipHtml = `<div class="prerequisite-tooltip">Prerrequisitos: ${ramo.prerrequisitos.join(', ')}</div>`;
-                    }
-                    
-                    ramoItem.innerHTML = `
-    			<span class="subject-code">${ramo.codigo}</span>
-    			${ramo.nombre}
-    			${tooltipHtml}
-		    `;
-                    
-                    // Solo agregar event listener si no está bloqueado
-                    if (estado !== 'bloqueado') {
-                        ramoItem.addEventListener('click', () => handleRamoClick(ramo));
-                    }
-                    
-                    ramosContainer.appendChild(ramoItem);
-                });
 
-                semestreDiv.appendChild(ramosContainer);
-                container.appendChild(semestreDiv);
-            });
+    const botonesContainer = document.createElement('div');
+    botonesContainer.className = 'semester-buttons';
+
+    const completarBtn = document.createElement('button');
+    completarBtn.className = 'complete-semester-btn';
+    completarBtn.textContent = '✓ Marcar Todo';
+
+    const limpiarBtn = document.createElement('button');
+    limpiarBtn.className = 'clear-semester-btn';
+    limpiarBtn.textContent = '✗ Desmarcar Todo';
+
+    // Habilitar/deshabilitar botones según corresponda
+    const tieneRamosDisponibles = semestreTieneRamosDisponibles(bloque);
+    const tieneRamosAprobados = bloque.ramos.some(ramo => ramosAprobados.has(ramo.nombre));
+
+    completarBtn.disabled = !tieneRamosDisponibles;
+    limpiarBtn.disabled = !tieneRamosAprobados;
+
+    completarBtn.addEventListener('click', () => marcarTodoSemestre(bloque));
+    limpiarBtn.addEventListener('click', () => desmarcarTodoSemestre(bloque));
+
+    botonesContainer.appendChild(completarBtn);
+    botonesContainer.appendChild(limpiarBtn);
+    semestreDiv.appendChild(botonesContainer);
+
+
+    const ramosContainer = document.createElement('ul');
+    ramosContainer.className = 'subject-list';
+
+    bloque.ramos.forEach(ramo => {
+        const ramoItem = document.createElement('li');
+        const estado = getEstadoRamo(ramo);
+                    
+        ramoItem.className = `subject-item ${estado}`;
+                    
+        let tooltipHtml = '';
+        if (estado === 'bloqueado' && ramo.prerrequisitos.length > 0) {
+            tooltipHtml = `<div class="prerequisite-tooltip">Prerrequisitos: ${ramo.prerrequisitos.join(', ')}</div>`;
+        }
+                    
+        ramoItem.innerHTML = `
+    		<span class="subject-code">${ramo.codigo}</span>
+    	${ramo.nombre}
+    	${tooltipHtml}
+		`;
+                    
+        // Solo agregar event listener si no está bloqueado
+        if (estado !== 'bloqueado') {
+            ramoItem.addEventListener('click', () => handleRamoClick(ramo));
+        }
+                    
+        ramosContainer.appendChild(ramoItem);
+    });
+
+    semestreDiv.appendChild(ramosContainer);
+    container.appendChild(semestreDiv);
+    });
             
-            // Actualizar estadísticas
-            statsContainer.innerHTML = generateStats(carrera);
-        }
+    // Actualizar estadísticas
+    statsContainer.innerHTML = generateStats(carrera);
+}
 
-        function resetProgress() {
-            ramosAprobados.clear();
-            renderMalla(carreraActual);
-        }
+function resetProgress() {
+    ramosAprobados.clear();
+    ramosConvalidados.clear();
+    renderMalla(carreraActual);
+}
 
-        // Inicializar con algunos ramos del primer semestre disponibles
-        function initializeProgress() {
-            // Los ramos sin prerrequisitos del primer semestre están disponibles por defecto
-            const primerSemestre = mallas[carreraActual][0];
-            primerSemestre.ramos.forEach(ramo => {
-                if (ramo.prerrequisitos.length === 0) {
-                    // No los agregamos automáticamente a aprobados, solo los dejamos disponibles
-                }
-            });
-        }
 
-        botones.forEach(btn => {
-            btn.addEventListener('click', () => {
-                botones.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Limpiar progreso al cambiar de carrera
-                ramosAprobados.clear();
-                renderMalla(btn.dataset.carrera);
-            });
+function aplicarConvalidacion() {
+    // Lista de ramos que se convalidan automáticamente para prosecución
+    const ramosConvalidadosLista = [
+        'Paradigmas de Programación',
+        'Estructura de Computadores',
+        'Inglés III',
+        'Fundamentos de Ingeniería de Software',
+        'Análisis de Algoritmos y Estructura de Datos',
+        'Base de Datos',
+        'Organización de Computadores',
+        'Inglés IV',
+        'Redes de Computadores',
+        'Sistemas Operativos',
+        'Ingeniería de Sistemas',
+        'Evaluación de Proyectos',
+        'Tópicos de Especialidad IV',
+        'Proyecto de Ingeniería de Software'
+    ];
+    
+    // Limpiar progreso actual
+    ramosAprobados.clear();
+    ramosConvalidados.clear();
+    
+    // Marcar ramos como convalidados
+    ramosConvalidadosLista.forEach(ramo => {
+        ramosConvalidados.add(ramo);
+    });
+    
+    // Re-renderizar
+    renderMalla(carreraActual);
+}
+
+
+// Inicializar con algunos ramos del primer semestre disponibles
+function initializeProgress() {
+    // Los ramos sin prerrequisitos del primer semestre están disponibles por defecto
+    const primerSemestre = mallas[carreraActual][0];
+    primerSemestre.ramos.forEach(ramo => {
+        if (ramo.prerrequisitos.length === 0) {
+            // No los agregamos automáticamente a aprobados, solo los dejamos disponibles
+        }
+    });
+}
+
+
+botones.forEach(btn => {
+    btn.addEventListener('click', () => {
+        botones.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Limpiar progreso al cambiar de carrera
+        ramosAprobados.clear();
+        ramosConvalidados.clear();
+        
+        // Mostrar/ocultar toggle de convalidación y advertencia
+        const convalidacionContainer = document.getElementById('convalidacionContainer');
+        const convalidacionToggle = document.getElementById('convalidacionToggle');
+        const advertenciaRequisitos = document.getElementById('advertenciaRequisitos');
+        
+        if (btn.dataset.carrera === 'prosecucion') {
+            convalidacionContainer.style.display = 'flex';
+            advertenciaRequisitos.style.display = 'block';
+            convalidacionToggle.classList.remove('active');
+        } else {
+            convalidacionContainer.style.display = 'none';
+            advertenciaRequisitos.style.display = 'none';
+            convalidacionToggle.classList.remove('active');
+        }
+        
+        renderMalla(btn.dataset.carrera);
+    });
+});
+
+
+function marcarTodoSemestre(semestre) {
+    semestre.ramos.forEach(ramo => {
+        if (puedeTomarRamo(ramo)) {
+            ramosAprobados.add(ramo.nombre);
+        }
+    });
+    renderMalla(carreraActual);
+}
+
+function desmarcarTodoSemestre(semestre) {
+    const ramosDelSemestre = semestre.ramos.map(ramo => ramo.nombre);
+    ramosDelSemestre.forEach(nombre => {
+        if (ramosAprobados.has(nombre)) {
+            ramosAprobados.delete(nombre);
+            desaprobarRamosCascada(nombre);
+        }
+    });
+    renderMalla(carreraActual);
+}
+
+function semestreTieneRamosDisponibles(semestre) {
+    return semestre.ramos.some(ramo => 
+        puedeTomarRamo(ramo) && !ramosAprobados.has(ramo.nombre)
+    );
+}
+
+
+function desaprobarRamosCascada(ramoDesaprobado) {
+    // Encontrar todos los ramos que dependen del ramo desaprobado
+    const data = mallas[carreraActual];
+    const ramosADesaprobar = [];
+            
+    data.forEach(semestre => {
+        semestre.ramos.forEach(ramo => {
+            if (ramosAprobados.has(ramo.nombre) && ramo.prerrequisitos.includes(ramoDesaprobado)) {
+                ramosADesaprobar.push(ramo.nombre);
+            }
         });
+    });
+            
+    // Desaprobar estos ramos y aplicar cascada recursivamente
+    ramosADesaprobar.forEach(nombreRamo => {
+        ramosAprobados.delete(nombreRamo);
+        desaprobarRamosCascada(nombreRamo);
+    });
+}
 
-        // Renderizar la malla por defecto
-        renderMalla('ejecucion');
+function handleRamoClick(ramo) {
+    const estado = getEstadoRamo(ramo);
+            
+    if (estado === 'aprobado') {
+        // Si está aprobado, desaprobarlo
+        ramosAprobados.delete(ramo.nombre);
+        // Aplicar cascada para desaprobar ramos dependientes
+        desaprobarRamosCascada(ramo.nombre);
+    } 
+    else if (estado === 'disponible') {
+        // Si está disponible, aprobarlo
+        ramosAprobados.add(ramo.nombre);
+    }
+    // Si está bloqueado, no hacer nada
+            
+    // Re-renderizar para actualizar estados
+    renderMalla(carreraActual);
+}
+
+
+// Renderizar la malla por defecto
+renderMalla('ejecucion');
+
+// Configurar toggle de convalidación
+const convalidacionContainer = document.getElementById('convalidacionContainer');
+const convalidacionToggle = document.getElementById('convalidacionToggle');
+convalidacionContainer.style.display = 'none';
+
+// Event listener para el toggle
+convalidacionToggle.addEventListener('click', () => {
+    const slider = convalidacionToggle.querySelector('.toggle-slider-content');
+    convalidacionToggle.classList.toggle('active');
+            
+    if (convalidacionToggle.classList.contains('active')) {
+        slider.innerHTML = '<span class="toggle-icon">✅</span><span>CONVALIDADO</span>';
+        aplicarConvalidacion();
+    } 
+    else {
+        slider.innerHTML = '<span class="toggle-icon">📋</span><span>NORMAL</span>';
+        ramosConvalidados.clear();
+        renderMalla(carreraActual);
+        }
+    });
+
         initializeProgress();
-    </script>
+
+</script>
 </body>
 </html>
